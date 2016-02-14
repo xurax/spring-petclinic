@@ -1,0 +1,39 @@
+- hosts: localhost
+  tasks:
+            - name: Install Git
+              become: yes
+              become_method: sudo
+              yum: name=git state=latest
+
+            - name: Install Docker
+              become: yes
+              become_method: sudo
+              yum: name=docker state=latest
+        
+            - name: Clone Pet-Clinic
+              git: repo=https://github.com/xurax/spring-petclinic.git dest=~/petclinic update=no
+        
+            - name: Clone Xura
+              git: repo=https://github.com/xurax/xura.git dest=~/xura update=no
+        
+            - name: Ensure Jenkins Yum repo present
+              become: yes
+              become_method: sudo
+              get_url: url=http://pkg.jenkins-ci.org/redhat/jenkins.repo
+                   dest=/etc/yum.repos.d/jenkins.repo mode=0644
+        
+            - name: Ensure Jenkins GPG key installed
+              command: rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
+              become: yes
+              become_method: sudo
+        
+            - name: Ensure Jenkins installed
+              yum: name=jenkins state=present
+              become: yes
+              become_method: sudo
+        
+            - name: Ensure Jenkins is running
+              service: name=jenkins state=running enabled=true
+              become: yes
+              become_method: sudo
+
