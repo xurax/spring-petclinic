@@ -6,3 +6,4 @@ RUN yum -y install tomcat
 ENV NAME whatever
 RUN mkdir /logs
 CMD tomcat start && tail -f /logs/catalina.out
+ADD *.war /usr/share/tomcat/webapps
