@@ -1,0 +1,6 @@
+- hosts: localhost
+  tasks:
+    - name: get my war from artifactory
+      become: yes
+      become_method: sudo
+      get_url: url=http://52.29.2.71:8081/artifactory/webapp/#/artifacts/browse/tree/General/libs-snapshot-local/org/springframework/samples/spring-petclinic-mmakhli/1.0.0-SNAPSHOT/spring-petclinic-mmakhli-1.0.0-20160214.123504-1.war dest=/home/ec2-user/petclinic/petclinic.war
